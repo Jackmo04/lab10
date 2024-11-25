@@ -2,6 +2,7 @@ package it.unibo.oop.lab.lambda;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -84,7 +85,15 @@ public final class LambdaUtilities {
         /*
          * Suggestion: consider Map.merge
          */
-        return null;
+        final Map<R, Set<T>> m = new HashMap<>();
+        list.forEach(t -> {
+            R r = op.apply(t);
+            if (!m.containsKey(r)) {
+                m.put(r, new HashSet<>());
+            }
+            m.get(r).add(t);
+        });
+        return m;
     }
 
     /**
