@@ -87,7 +87,7 @@ public final class LambdaUtilities {
          */
         final Map<R, Set<T>> m = new HashMap<>();
         list.forEach(t -> {
-            R r = op.apply(t);
+            final R r = op.apply(t);
             if (!m.containsKey(r)) {
                 m.put(r, new HashSet<>());
             }
