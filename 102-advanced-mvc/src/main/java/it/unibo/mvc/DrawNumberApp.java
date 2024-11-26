@@ -25,16 +25,16 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
          * Side-effect proof
          */
         this.views = Arrays.asList(Arrays.copyOf(views, views.length));
-        for (final DrawNumberView view : views) {
+        this.views.forEach(view -> {
             view.setObserver(this);
             view.start();
-        }
+        });
         this.config = this.loadConfiguration();
         if (!this.config.isConsistent()) {
-            for (final DrawNumberView view : this.views) {
+            this.views.forEach(view -> {
                 view.displayError("Configuration is inconsistent");
                 quit();
-            }
+            });
         }
         this.model = new DrawNumberImpl(
                 config.getMin(),
@@ -82,13 +82,9 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
     public void newAttempt(final int n) {
         try {
             final DrawResult result = model.attempt(n);
-            for (final DrawNumberView view : views) {
-                view.result(result);
-            }
+            this.views.forEach(view -> view.result(result));
         } catch (IllegalArgumentException e) {
-            for (final DrawNumberView view : views) {
-                view.numberIncorrect();
-            }
+            this.views.forEach(DrawNumberView::numberIncorrect);
         }
     }
 
