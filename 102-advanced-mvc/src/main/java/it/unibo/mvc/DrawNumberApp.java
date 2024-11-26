@@ -38,8 +38,10 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
 
     private Configuration loadConfiguration() {
         try (
-                final BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(ClassLoader.getSystemResourceAsStream(CONFIG_FILE)));) {
+            final BufferedReader reader = new BufferedReader(
+                new InputStreamReader(ClassLoader.getSystemResourceAsStream(CONFIG_FILE))
+            );
+        ) {
             Configuration.Builder confBuilder = new Configuration.Builder();
             String line;
             while ((line = reader.readLine()) != null) {
