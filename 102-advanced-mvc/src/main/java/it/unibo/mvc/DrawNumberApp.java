@@ -30,6 +30,12 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
             view.start();
         }
         this.config = this.loadConfiguration();
+        if (!this.config.isConsistent()) {
+            for (final DrawNumberView view : this.views) {
+                view.displayError("Configuration is inconsistent");
+                quit();
+            }
+        }
         this.model = new DrawNumberImpl(
                 config.getMin(),
                 config.getMax(),
@@ -60,14 +66,7 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
                         throw new IllegalArgumentException("Option " + option[0] + "doesn't exist");
                 }
             }
-            final Configuration conf = confBuilder.build();
-            if (!conf.isConsistent()) {
-                for (final DrawNumberView view : this.views) {
-                    view.displayError("Configuration is inconsistent");
-                    quit();
-                }
-            }
-            return conf;
+            return confBuilder.build();
 
         } catch (IOException e) {
             for (final DrawNumberView view : this.views) {
